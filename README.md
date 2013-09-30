@@ -1,4 +1,4 @@
 download
 ========
 
-Download many http resources asynchronously
+download many http resources asynchronously
