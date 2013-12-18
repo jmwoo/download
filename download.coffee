@@ -8,13 +8,13 @@ fs = require 'fs'
 queueConcurrency = 10
 totalRequestedDownloads = 0
 totalFinishedDownloads = 0
-momentFormat = 'YYYY/MM/DD HH:mm:ss.SS'
+momentFormat = 'YYYY-MM-DD HH:mm:ss.SSS'
 
 queue = async.queue (task, callback) ->
 	stream = fs.createWriteStream(task.filepath)
 	stream.on 'close', ->
 		totalFinishedDownloads += 1
-		console.log "downloaded '#{path.basename(task.url)}' to '#{path.dirname(task.filepath)}' on #{moment().format(momentFormat)}"
+		console.log "downloaded '#{path.basename(task.url)}' to '#{path.dirname(task.filepath)}' at #{now()}"
 		callback()
 	stream.on 'error', (err) ->
 		callback(err)
@@ -31,5 +31,8 @@ get = (url, filepath) ->
 	totalRequestedDownloads += 1
 	queue.push task, (err) ->
 		throw err if err
+
+now = ->
+	moment().format(momentFormat)
 
 exports.get = get
