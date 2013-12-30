@@ -5,6 +5,7 @@ This is a tool for downloading http resources. It is most useful when you need t
 ## usage
 
 ```javascript
+var path = require('path');
 var get = require('./download').get;
 
 var url = "http://www.mindfulvalley.org/files/books/mindfulness_plain_english.pdf";

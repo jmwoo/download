@@ -5,10 +5,9 @@ var moment = require('moment');
 var path = require('path');
 var fs = require('fs');
 
-var queueConcurrency = 10;
 var totalRequestedDownloads = 0;
 var totalFinishedDownloads = 0;
-var momentFormat = 'YYYY-MM-DD HH:mm:ss.SSS';
+var config = JSON.parse(fs.readFileSync('config.json'));
 
 var queue = async.queue(function (task, cb) {
 	var stream = fs.createWriteStream(task.filepath);
@@ -16,7 +15,7 @@ var queue = async.queue(function (task, cb) {
 		totalFinishedDownloads += 1;
 		var name = path.basename(task.url);
 		var dest = path.dirname(task.filepath);
-		var now = moment.format(momentFormat);
+		var now = moment().format(config.mfmt);
 		var msg = 'downloaded ' + name + ' to ' + dest + ' on ' + now;
 		console.log(msg);
 		cb();
@@ -25,7 +24,7 @@ var queue = async.queue(function (task, cb) {
 		cb(err);
 	});
 	request(task.url).pipe(stream);
-}, queueConcurrency);
+}, config.queueConcurrency);
 
 queue.drain = function () {
 	var tfd = totalFinishedDownloads.toString();
