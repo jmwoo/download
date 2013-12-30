@@ -37,7 +37,11 @@ queue.drain = function () {
 
 var get = function (url, filepath) {
   totalRequestedDownloads += 1;
-  queue.push({"url": url, "filepath": filepath}, function (err) {
+  var task = {
+    "url": url,
+    "filepath": filepath
+  };
+  queue.push(task, function (err) {
     if (err) {
       throw err;
     }
