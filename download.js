@@ -13,11 +13,7 @@ var queue = async.queue(function (task, cb) {
   var stream = fs.createWriteStream(task.filepath);
   stream.on('close', function () {
     totalFinishedDownloads += 1;
-    var name = path.basename(task.url);
-    var dest = path.dirname(task.filepath);
-    var now = moment().format(config.mfmt);
-    var msg = 'downloaded ' + name + ' to ' + dest + ' on ' + now;
-    console.log(msg);
+    console.log("downloaded %s to %s on %s", path.basename(task.url), path.dirname(task.filepath), moment().format(config.mfmt));
     cb();
   });
   stream.on('error', function (err) {
@@ -27,10 +23,7 @@ var queue = async.queue(function (task, cb) {
 }, config.queueConcurrency);
 
 queue.drain = function () {
-  var tfd = totalFinishedDownloads.toString();
-  var trd = totalRequestedDownloads.toString();
-  var msg = '(' + tfd + '/' + trd + ') files downloaded successfully';
-  console.log(msg);
+  console.log("(%d/%d) files downloaded successfully", totalFinishedDownloads, totalRequestedDownloads);
   totalRequestedDownloads = 0;
   totalFinishedDownloads = 0;
 };
