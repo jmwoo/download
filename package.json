@@ -2,8 +2,8 @@
 	"name": "download",
 	"version": "1.0.0",
 	"dependencies": {
-		"async": "0.2.9",
-		"moment": "2.5.0",
-		"request": "2.30.0"
+		"async": "~0.2.9",
+		"moment": "~2.5.0",
+		"request": "~2.30.0"
 	}
 }
