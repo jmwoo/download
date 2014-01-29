@@ -31,7 +31,6 @@ queue.drain = function () {
   totalFinishedDownloads = 0;
 };
 
-// task = {url: 'http://www.example.com/coolsong.mp3', filepath: './song.mp3'};
 var download = function (task) {
   totalRequestedDownloads += 1;
   queue.push(task, function (err) {
