@@ -16,7 +16,10 @@ var queue = async.queue(function (task, cb) {
   var stream = fs.createWriteStream(task.filepath);
   stream.on('close', function () {
     totalFinishedDownloads += 1;
-    console.log("downloaded %s to %s on %s", path.basename(task.url), path.dirname(task.filepath), moment().format(config.mfmt));
+    console.log("downloaded %s to %s on %s", 
+      path.basename(task.url), 
+      path.dirname(task.filepath), 
+      moment().format(config.mfmt));
     cb();
   });
   stream.on('error', function (err) {
@@ -26,7 +29,9 @@ var queue = async.queue(function (task, cb) {
 }, config.queueConcurrency);
 
 queue.drain = function () {
-  console.log("(%d/%d) files downloaded successfully", totalFinishedDownloads, totalRequestedDownloads);
+  console.log("(%d/%d) files downloaded successfully", 
+    totalFinishedDownloads, 
+    totalRequestedDownloads);
   totalRequestedDownloads = 0;
   totalFinishedDownloads = 0;
 };
