@@ -11,5 +11,7 @@ var download = require('./download').download;
 var url = "http://www.mindfulvalley.org/files/books/mindfulness_plain_english.pdf";
 var filepath = path.join(process.cwd(), 'good_book.pdf');
 
-download(url, filepath);
+var task = {url: url, filepath: filepath};
+
+download(task);
 ```
