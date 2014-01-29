@@ -7,7 +7,10 @@ var fs = require('fs');
 
 var totalRequestedDownloads = 0;
 var totalFinishedDownloads = 0;
-var config = JSON.parse(fs.readFileSync('config.json'));
+var config = {
+  "queueConcurrency": 10,
+  "mfmt": "YYYY-MM-DD HH:mm:ss.SSS"
+};
 
 var queue = async.queue(function (task, cb) {
   var stream = fs.createWriteStream(task.filepath);
@@ -28,12 +31,9 @@ queue.drain = function () {
   totalFinishedDownloads = 0;
 };
 
-var get = function (url, filepath) {
+// task = {url: 'http://www.example.com/coolsong.mp3', filepath: './song.mp3'};
+var get = function (task) {
   totalRequestedDownloads += 1;
-  var task = {
-    "url": url,
-    "filepath": filepath
-  };
   queue.push(task, function (err) {
     if (err) {
       throw err;
